@@ -40,4 +40,20 @@ public class VendingMachineItemTest {
             new VendingMachineItem("Chips", price);
         });
     }
+
+    @Test
+    void itemGetters() {
+        // Tests that getName() and getPrice() return the values stored in the item.
+
+        // Arrange
+        VendingMachineItem item = new VendingMachineItem("Chips", 1.50);
+
+        // Act
+        String name = item.getName();
+        double price = item.getPrice();
+
+        // Assert
+        assertEquals("Chips", name);
+        assertEquals(1.50, price, 0.001);
+    }
 }
