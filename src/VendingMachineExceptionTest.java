@@ -20,4 +20,16 @@ public class VendingMachineExceptionTest {
         assertEquals(message, exception.getMessage());
     }
 
+    @Test
+    void defaultExceptionHasNoMessage() {
+        // Tests that the default constructor creates an exception with no message.
+
+        // Arrange & Act
+        VendingMachineException exception =
+                new VendingMachineException();
+
+        // Assert
+        assertNull(exception.getMessage());
+    }
+
 }
