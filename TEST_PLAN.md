@@ -1,0 +1,19 @@
+# Vending Machine Test Plan
+
+This test plan identifies the valid, invalid, and boundary behaviors that will
+be tested in the VendingMachine project. Expected results are based on the
+provided Javadocs, preconditions, postconditions, and documented behavior.
+
+| Method / Behavior | Valid Case(s) | Exception / Invalid Case(s) | Boundary Case(s) | Oracle / Expected Result | Related JUnit Test(s) |
+|---|---|---|---|---|---|
+| VendingMachine constructor | Create a new vending machine | N/A | Newly created machine | Javadocs state all slots should be empty and balance should be 0 | `constructorStartsEmpty()` |
+| addItem() | Add an item to an empty valid slot | Adding to an occupied slot should throw VendingMachineException; invalid slot code should throw VendingMachineException | Test valid slot codes at the ends, such as A and D | Javadocs state an item is placed in the specified empty slot | `addItemStoresItem()`, `addItemOccupiedThrows()`, `addItemInvalidCodeThrows()` |
+| getItem() | Retrieve an item from an occupied slot | Invalid slot code should throw VendingMachineException | Retrieve from an empty slot | Javadocs state the item occupying the specified slot is returned; an empty slot should contain null | `getItemReturnsItem()`, `getItemEmptyReturnsNull()`, `getItemInvalidCodeThrows()` |
+| removeItem() | Remove an item from an occupied slot | Removing from an empty slot or using an invalid code should throw VendingMachineException | Remove the only item in the machine | Javadocs state the item is returned and removed from the slot | `removeItemReturnsItem()`, `removeItemEmptyThrows()`, `removeItemInvalidCodeThrows()` |
+| insertMoney() | Insert valid nonnegative amounts | Negative amount should throw VendingMachineException | Test 0 and values immediately around 1.00 | Javadocs specify amount >= 0 and that the balance increases by the inserted amount | `insertMoneyValidAmounts()` (parameterized), `insertMoneyNegativeThrows()` |
+| getBalance() | Check balance after inserting money | N/A | New machine balance should be 0 | Javadocs state the machine begins with a balance of 0 and getBalance returns the current balance without changing it | `initialBalanceIsZero()`, `getBalanceReturnsBalance()` |
+| makePurchase() | Purchase an item when enough money has been inserted | N/A | Test insufficient balance, exact balance, greater-than-required balance, and an empty slot | Javadocs state purchase returns true when enough money is available, false when insufficient or slot is empty, and successful purchase subtracts the price | `purchaseInsufficientFails()`, `purchaseExactSucceeds()`, `purchaseExtraSucceeds()`, `purchaseEmptyFails()` |
+| returnChange() | Return a positive remaining balance | N/A | Balance of exactly 0 | Javadocs state the previous balance is returned and the machine balance becomes 0 | `returnChangeReturnsBalance()`, `returnChangeZero()` |
+| VendingMachineItem constructor | Create an item with a valid name and price | Negative price should throw VendingMachineException | Price exactly 0 | Javadocs specify price >= 0 and that the supplied name and price are stored | `itemStoresValues()`, `itemZeroPriceAllowed()`, `itemNegativePriceThrows()` |
+| VendingMachineItem getters | Retrieve an item's name and price | N/A | Include a zero-price item | Javadocs state getName() and getPrice() return the stored values | `itemStoresValues()` |
+| VendingMachineException constructors | Create an exception with and without a message | N/A | Default constructor has no supplied message | Java exception behavior and the provided constructors determine the expected message | `exceptionStoresMessage()`, `defaultExceptionHasNoMessage()` |
