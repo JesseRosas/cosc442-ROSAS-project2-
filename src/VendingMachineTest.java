@@ -108,11 +108,40 @@ public class VendingMachineTest {
 
     @Test
     void getItemSlotInvalidCodeThrows() {
-        // Tests that getItem() throws an exception for an invalid slot code.
+        // Tests that getItem() throws an exception when 
+        // trying to get an item from an invalid slot code.
 
         // Act & Assert
         assertThrows(VendingMachineException.class, () -> {
             machine.getItem("E");
+        });
+    }
+
+    @Test
+    void removeItemReturnsItem() {
+        // Tests that removeItem() returns and removes an item from a valid slot.
+
+        // Arrange
+        VendingMachineItem item =
+                new VendingMachineItem("Chips", 1.50);
+
+        machine.addItem(item, "A");
+
+        // Act
+        VendingMachineItem removedItem = machine.removeItem("A");
+
+        // Assert
+        assertEquals(item, removedItem);
+        assertNull(machine.getItem("A"));
+    }
+
+    @Test
+    void removeItemEmptyThrows() {
+        // Tests that removing an item from an empty slot throws an exception.
+
+        // Act & Assert
+        assertThrows(VendingMachineException.class, () -> {
+            machine.removeItem("C");
         });
     }
 }
