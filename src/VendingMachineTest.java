@@ -171,4 +171,17 @@ public class VendingMachineTest {
         // Assert
         assertEquals(amount, machine.getBalance(), 0.001);
     }
+
+    @Test
+    void insertMoneyNegativeThrows() {
+        // Tests that a negative money amount throws an exception.
+
+        // Arrange
+        double amount = -0.01;
+
+        // Act & Assert
+        assertThrows(VendingMachineException.class, () -> {
+            machine.insertMoney(amount);
+        });
+    }
 }
