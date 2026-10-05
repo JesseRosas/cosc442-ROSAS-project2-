@@ -1,5 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,5 +42,24 @@ public class VendingMachineTest {
 
         // Assert
         assertEquals(item, machine.getItem("A"));
+    }
+
+    @Test
+    void addItemOccupiedThrows() {
+        // Tests that adding an item to an occupied slot throws an exception.
+
+        // Arrange
+        VendingMachineItem chips =
+                new VendingMachineItem("Chips", 1.50);
+
+        VendingMachineItem soda =
+                new VendingMachineItem("Soda", 2.00);
+
+        machine.addItem(chips, "A");
+
+        // Act & Assert
+        assertThrows(VendingMachineException.class, () -> {
+            machine.addItem(soda, "A");
+        });
     }
 }
