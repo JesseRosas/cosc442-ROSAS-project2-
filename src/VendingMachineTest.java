@@ -184,4 +184,18 @@ public class VendingMachineTest {
             machine.insertMoney(amount);
         });
     }
+
+    @Test
+    void getBalanceReturnsBalance() {
+        // Tests that getBalance() returns the current machine balance.
+
+        // Arrange
+        machine.insertMoney(2.50);
+
+        // Act
+        double balance = machine.getBalance();
+
+        // Assert
+        assertEquals(2.50, balance, 0.001);
+    }
 }
