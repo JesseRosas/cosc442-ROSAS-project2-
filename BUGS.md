@@ -58,3 +58,28 @@ to:
 `amount < 0`
 
 After the correction, all six cases in `insertMoneyValidAmounts()` passed.
+
+## Test Sensitivity Experiment
+
+**Injected Fault:**  
+I changed the purchase condition in `makePurchase()` from:
+
+`balance >= item.getPrice()`
+
+to:
+
+`balance > item.getPrice()`
+
+
+**Test That Failed:**  
+`purchaseExactSucceeds()`
+
+**JUnit Failure Message:**  
+`org.opentest4j.AssertionFailedError: expected: [true] but was: [false]`
+
+**Why the Test Detected the Fault:**  
+The test gives the vending machine a balance that exactly matches the item's
+price. The correct condition allows a purchase when the balance is greater than
+or equal to the price. Changing the condition to only `>` caused the purchase
+to fail when the balance and price were equal, so the test returned false
+instead of the expected true.
