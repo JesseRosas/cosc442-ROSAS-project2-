@@ -1,17 +1,22 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class VendingMachineTest {
+
+    private VendingMachine machine;
+
+    @BeforeEach
+    void setUp() {
+        // Creates a fresh vending machine before each test.
+        machine = new VendingMachine();
+    }
 
     @Test
     void constructorStartsEmpty() {
         // Tests that a new vending machine starts with no items
         // and a balance of $0.00.
-
-        // Arrange & Act
-        VendingMachine machine = new VendingMachine();
 
         // Assert
         assertEquals(0.00, machine.getBalance(), 0.001);
@@ -20,5 +25,20 @@ public class VendingMachineTest {
         assertNull(machine.getItem("B"));
         assertNull(machine.getItem("C"));
         assertNull(machine.getItem("D"));
+    }
+
+    @Test
+    void addItemStoresItem() {
+        // Tests that an item can be added to an empty valid slot.
+
+        // Arrange
+        VendingMachineItem item =
+                new VendingMachineItem("Chips", 1.50);
+
+        // Act
+        machine.addItem(item, "A");
+
+        // Assert
+        assertEquals(item, machine.getItem("A"));
     }
 }
