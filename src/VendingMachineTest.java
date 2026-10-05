@@ -62,4 +62,18 @@ public class VendingMachineTest {
             machine.addItem(soda, "A");
         });
     }
+
+    @Test
+    void slotInvalidCodeThrows() {
+        // Tests that using an invalid slot code throws an exception.
+
+        // Arrange
+        VendingMachineItem item =
+                new VendingMachineItem("Chips", 1.50);
+
+        // Act & Assert
+        assertThrows(VendingMachineException.class, () -> {
+            machine.addItem(item, "E");
+        });
+    }
 }
