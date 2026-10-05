@@ -1,6 +1,8 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -197,5 +199,109 @@ public class VendingMachineTest {
 
         // Assert
         assertEquals(2.50, balance, 0.001);
+    }
+
+    @Test
+    void purchaseInsufficientFails() {
+        // Tests that a purchase fails when the balance is too low.
+
+        // Arrange
+        VendingMachineItem item =
+                new VendingMachineItem("Chips", 1.50);
+
+        machine.addItem(item, "A");
+        machine.insertMoney(1.00);
+
+        // Act
+        boolean result = machine.makePurchase("A");
+
+        // Assert
+        assertFalse(result);
+        assertEquals(item, machine.getItem("A"));
+        assertEquals(1.00, machine.getBalance(), 0.001);
+    }
+
+    @Test
+    void purchaseExactSucceeds() {
+        // Tests that a purchase succeeds when the balance exactly matches the item price.
+
+        // Arrange
+        VendingMachineItem item =
+                new VendingMachineItem("Chips", 1.50);
+
+        machine.addItem(item, "A");
+        machine.insertMoney(1.50);
+
+        // Act
+        boolean result = machine.makePurchase("A");
+
+        // Assert
+        assertTrue(result);
+        assertNull(machine.getItem("A"));
+        assertEquals(0.00, machine.getBalance(), 0.001);
+    }
+
+    @Test
+    void purchaseExtraSucceeds() {
+        // Tests that a purchase succeeds when the balance is greater than the item price.
+
+        // Arrange
+        VendingMachineItem item =
+                new VendingMachineItem("Chips", 1.50);
+
+        machine.addItem(item, "A");
+        machine.insertMoney(2.00);
+
+        // Act
+        boolean result = machine.makePurchase("A");
+
+        // Assert
+        assertTrue(result);
+        assertNull(machine.getItem("A"));
+        assertEquals(0.50, machine.getBalance(), 0.001);
+    }
+
+    @Test
+    void purchaseEmptyFails() {
+        // Tests that a purchase fails when the selected slot is empty.
+
+        // Arrange
+        machine.insertMoney(2.00);
+
+        // Act
+        boolean result = machine.makePurchase("D");
+
+        // Assert
+        assertFalse(result);
+        assertEquals(2.00, machine.getBalance(), 0.001);
+        assertNull(machine.getItem("D"));
+    }
+
+    @Test
+    void returnChangeReturnsBalance() {
+        // Tests that returnChange() returns the current balance
+        // and resets the machine balance to zero.
+
+        // Arrange
+        machine.insertMoney(2.50);
+
+        // Act
+        double change = machine.returnChange();
+
+        // Assert
+        assertEquals(2.50, change, 0.001);
+        assertEquals(0.00, machine.getBalance(), 0.001);
+    }
+
+    @Test
+    void returnChangeZero() {
+        // Tests that returnChange() returns zero when no money has been inserted.
+
+        // Act
+        double change = machine.returnChange();
+
+        // Assert
+        assertEquals(0.00, change, 0.001);
+        assertEquals(0.00, machine.getBalance(), 0.001);
     }
 }
