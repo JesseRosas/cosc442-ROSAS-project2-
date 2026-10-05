@@ -1,6 +1,8 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -156,5 +158,17 @@ public class VendingMachineTest {
         assertThrows(VendingMachineException.class, () -> {
             machine.removeItem("E");
         });
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {0.00, 0.01, 0.99, 1.00, 1.01, 25.00})
+    void insertMoneyValidAmounts(double amount) {
+        // Tests several valid amounts, including values around important boundaries.
+
+        // Act
+        machine.insertMoney(amount);
+
+        // Assert
+        assertEquals(amount, machine.getBalance(), 0.001);
     }
 }
