@@ -93,4 +93,15 @@ public class VendingMachineTest {
         // Assert
         assertEquals(item, result);
     }
+
+    @Test
+    void getItemEmptyReturnsNull() {
+        // Tests that getItem() returns null for an empty valid slot.
+
+        // Act
+        VendingMachineItem result = machine.getItem("C");
+
+        // Assert
+        assertNull(result);
+    }
 }
