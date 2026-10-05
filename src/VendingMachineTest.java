@@ -120,6 +120,7 @@ public class VendingMachineTest {
     @Test
     void removeItemReturnsItem() {
         // Tests that removeItem() returns and removes an item from a valid slot.
+        // valid occupied slot.
 
         // Arrange
         VendingMachineItem item =
@@ -138,10 +139,22 @@ public class VendingMachineTest {
     @Test
     void removeItemEmptyThrows() {
         // Tests that removing an item from an empty slot throws an exception.
+        // valid but empty slot.
 
         // Act & Assert
         assertThrows(VendingMachineException.class, () -> {
             machine.removeItem("C");
+        });
+    }
+
+    @Test
+    void removeItemInvalidCodeThrows() {
+        // Tests that removeItem() throws an exception for an invalid slot code.
+        // invalid slot code.
+
+        // Act & Assert
+        assertThrows(VendingMachineException.class, () -> {
+            machine.removeItem("E");
         });
     }
 }
