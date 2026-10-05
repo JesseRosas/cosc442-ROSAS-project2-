@@ -76,4 +76,21 @@ public class VendingMachineTest {
             machine.addItem(item, "E");
         });
     }
+
+    @Test
+    void getItemReturnsItem() {
+        // Tests that getItem() returns the item stored in the requested slot.
+
+        // Arrange
+        VendingMachineItem item =
+                new VendingMachineItem("Chips", 1.50);
+
+        machine.addItem(item, "B");
+
+        // Act
+        VendingMachineItem result = machine.getItem("B");
+
+        // Assert
+        assertEquals(item, result);
+    }
 }
