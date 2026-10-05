@@ -65,7 +65,8 @@ public class VendingMachineTest {
 
     @Test
     void slotInvalidCodeThrows() {
-        // Tests that using an invalid slot code throws an exception.
+        // Cannot add an item to an invalid slot.
+        // This tests that adding an item with an invalid slot code throws an exception.
 
         // Arrange
         VendingMachineItem item =
@@ -103,5 +104,15 @@ public class VendingMachineTest {
 
         // Assert
         assertNull(result);
+    }
+
+    @Test
+    void getItemSlotInvalidCodeThrows() {
+        // Tests that getItem() throws an exception for an invalid slot code.
+
+        // Act & Assert
+        assertThrows(VendingMachineException.class, () -> {
+            machine.getItem("E");
+        });
     }
 }
